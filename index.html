@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Project Data Chatbot</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <header class="app-header">
+      <div class="header-text">
+        <h1>Project Data Chatbot</h1>
+        <p class="tagline">Ask questions about your project plan, features, or workflow.</p>
+      </div>
+    </header>
+
+    <main class="layout" aria-live="polite">
+      <section class="chat" aria-label="Conversation">
+        <div id="conversation" class="conversation" role="log" aria-live="polite" aria-relevant="additions"></div>
+
+        <form id="chat-form" class="chat-form" autocomplete="off" aria-label="Send a question to the chatbot">
+          <label class="sr-only" for="user-input">Type a question for the chatbot</label>
+          <input
+            id="user-input"
+            name="message"
+            type="text"
+            placeholder="Ask something about the project..."
+            minlength="2"
+            required
+          />
+          <button type="submit" class="send-button">Send</button>
+        </form>
+      </section>
+
+      <aside class="info-panel" aria-label="Helpful guidance">
+        <section class="card">
+          <h2>Quick topics</h2>
+          <ul id="suggestions" class="suggestions"></ul>
+        </section>
+
+          <section class="card">
+            <h2>How this works</h2>
+            <p>
+              The chatbot sends your question to the OpenAI Chat Completions API and relays the model's answer back to
+              you. Your previous messages are included so follow-up questions stay in context. Configure the API endpoint
+              and model in <code>config.js</code> if you need to use a proxy or a different deployment.
+            </p>
+          </section>
+      </aside>
+    </main>
+
+    <template id="message-template">
+      <article class="message" data-sender="">
+        <div class="avatar" aria-hidden="true"></div>
+        <div class="bubble">
+          <span class="sender"></span>
+          <p class="text"></p>
+          <time class="timestamp" datetime=""></time>
+        </div>
+      </article>
+    </template>
+
+    <script src="script.js"></script>
+  </body>
+</html>

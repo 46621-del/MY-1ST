@@ -1,0 +1,27 @@
+{
+  "name": "project-data-chatbot",
+  "version": "1.1.0",
+  "description": "Responsive chatbot UI backed by the OpenAI Chat Completions API via an Express proxy.",
+  "type": "module",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "nodemon server.js"
+  },
+  "keywords": [
+    "chatbot",
+    "openai",
+    "express",
+    "frontend"
+  ],
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.5",
+    "express": "^4.19.2",
+    "node-fetch": "^3.3.2"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.0"
+  }
+}
