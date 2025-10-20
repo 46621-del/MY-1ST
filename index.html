@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ChatGPT Data Chatbot</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div class="app-shell">
+      <header class="app-header">
+        <div>
+          <h1>ChatGPT Knowledge Chatbot</h1>
+          <p class="tagline">Powered by the official OpenAI Chat Completions API</p>
+        </div>
+        <button id="toggleSettings" class="secondary-button" type="button" aria-expanded="false">
+          Settings
+        </button>
+      </header>
+
+      <main class="app-main">
+        <section class="conversation" id="conversation" aria-live="polite"></section>
+
+        <form id="chatForm" class="chat-form" autocomplete="off">
+          <label class="sr-only" for="messageInput">Ask ChatGPT anything</label>
+          <textarea
+            id="messageInput"
+            class="chat-input"
+            name="message"
+            placeholder="Ask your question here..."
+            rows="2"
+            required
+          ></textarea>
+          <div class="chat-actions">
+            <span class="helper-text">Press Shift + Enter for a new line</span>
+            <button class="primary-button" type="submit">Send</button>
+          </div>
+        </form>
+      </main>
+
+      <aside class="settings-panel" id="settingsPanel" hidden>
+        <h2>Chatbot Settings</h2>
+        <form id="settingsForm">
+          <label class="form-field">
+            <span>OpenAI API key</span>
+            <input type="password" id="apiKeyInput" placeholder="sk-..." required />
+            <small>Stored locally in your browser only. Never commit your key.</small>
+          </label>
+
+          <label class="form-field">
+            <span>Model</span>
+            <select id="modelSelect">
+              <option value="gpt-4o">gpt-4o (recommended)</option>
+              <option value="gpt-4o-mini">gpt-4o-mini</option>
+              <option value="gpt-4-turbo">gpt-4-turbo</option>
+              <option value="gpt-3.5-turbo">gpt-3.5-turbo</option>
+            </select>
+          </label>
+
+          <label class="form-field">
+            <span>System prompt</span>
+            <textarea
+              id="systemPromptInput"
+              rows="4"
+              placeholder="You are a helpful AI assistant..."
+            ></textarea>
+            <small>Use this to tailor the assistant's behavior for your project.</small>
+          </label>
+
+          <label class="form-field checkbox">
+            <input type="checkbox" id="rememberSettings" />
+            <span>Remember my settings on this device</span>
+          </label>
+
+          <div class="settings-actions">
+            <button class="primary-button" type="submit">Save</button>
+            <button class="secondary-button" type="button" id="resetSettings">Reset</button>
+          </div>
+        </form>
+
+        <section class="info-block">
+          <h3>How to use</h3>
+          <ol>
+            <li>Open the settings panel and paste your OpenAI API key.</li>
+            <li>Select the model you want to use and adjust the system prompt.</li>
+            <li>Ask questions in the chat box &mdash; responses come directly from ChatGPT.</li>
+          </ol>
+        </section>
+
+        <section class="info-block">
+          <h3>Security note</h3>
+          <p>
+            This demo calls the OpenAI API directly from the browser. For production apps, proxy
+            requests through your own server so you can protect your API key and apply usage limits.
+          </p>
+        </section>
+      </aside>
+    </div>
+
+    <template id="messageTemplate">
+      <article class="message" data-role="">
+        <div class="avatar" aria-hidden="true"></div>
+        <div class="message-body">
+          <header class="message-header">
+            <span class="role"></span>
+            <time class="timestamp"></time>
+          </header>
+          <div class="message-content"></div>
+        </div>
+      </article>
+    </template>
+
+    <script src="script.js" defer></script>
+  </body>
+</html>
