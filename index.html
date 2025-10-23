@@ -3,34 +3,28 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>ChatGPT Project Assistant</title>
+    <title>Project Data Chatbot</title>
     <link rel="stylesheet" href="styles.css" />
   </head>
   <body>
     <header class="app-header">
       <div class="header-text">
-        <h1>ChatGPT Project Assistant</h1>
-        <p class="tagline">Craft polished project updates, roadmaps, and copy with real-time ChatGPT answers.</p>
+        <h1>Project Data Chatbot</h1>
+        <p class="tagline">Ask questions about your project plan, features, or workflow.</p>
       </div>
     </header>
 
     <main class="layout" aria-live="polite">
-      <section class="chat" aria-label="Conversation area">
-        <div class="chat-header">
-          <h2>Live conversation</h2>
-          <button type="button" id="reset-chat" class="secondary-button">New conversation</button>
-        </div>
-
+      <section class="chat" aria-label="Conversation">
         <div id="conversation" class="conversation" role="log" aria-live="polite" aria-relevant="additions"></div>
-        <div id="status" class="status" role="status" aria-live="polite" hidden></div>
 
-        <form id="chat-form" class="chat-form" autocomplete="off" aria-label="Send a question to ChatGPT">
-          <label class="sr-only" for="user-input">Type your message for ChatGPT</label>
+        <form id="chat-form" class="chat-form" autocomplete="off" aria-label="Send a question to the chatbot">
+          <label class="sr-only" for="user-input">Type a question for the chatbot</label>
           <input
             id="user-input"
             name="message"
             type="text"
-            placeholder="Ask ChatGPT about your project, content, or code..."
+            placeholder="Ask something about the project..."
             minlength="2"
             required
           />
@@ -38,54 +32,18 @@
         </form>
       </section>
 
-      <aside class="info-panel" aria-label="Controls and help">
-        <section class="card settings" aria-label="API configuration">
-          <h2>Connect to ChatGPT</h2>
-          <p class="card-intro">
-            Paste an OpenAI API key to unlock responses. Your key stays in this browser only when you choose to remember it.
-          </p>
-
-          <div class="field-group">
-            <label for="api-key">OpenAI API key</label>
-            <div class="password-field">
-              <input id="api-key" name="api-key" type="password" placeholder="sk-..." autocomplete="off" spellcheck="false" />
-              <button type="button" id="toggle-key-visibility" class="secondary-button" aria-pressed="false" aria-label="Show API key">Show</button>
-            </div>
-            <label class="checkbox">
-              <input id="remember-key" type="checkbox" />
-              <span>Remember this key on this device</span>
-            </label>
-          </div>
-
-          <div class="field-group">
-            <label for="model-select">Model</label>
-            <select id="model-select" name="model"></select>
-            <p id="model-description" class="helper-text" role="note"></p>
-          </div>
-
-          <div class="field-group">
-            <label for="system-prompt">System instructions</label>
-            <textarea
-              id="system-prompt"
-              name="system-prompt"
-              rows="4"
-              placeholder="Optional: tell ChatGPT how to respond in this chat"
-            ></textarea>
-          </div>
-        </section>
-
-        <section class="card" aria-label="Quick prompts">
-          <h2>Quick prompts</h2>
+      <aside class="info-panel" aria-label="Helpful guidance">
+        <section class="card">
+          <h2>Quick topics</h2>
           <ul id="suggestions" class="suggestions"></ul>
         </section>
 
-        <section class="card" aria-label="Usage tips">
-          <h2>Usage tips</h2>
-          <ul class="tips">
-            <li><strong>Privacy:</strong> Keys are stored locally if you tick “Remember”. Clear it anytime by unticking.</li>
-            <li><strong>Streaming:</strong> Responses appear once ChatGPT finishes thinking—watch the status line for progress.</li>
-            <li><strong>Reset:</strong> Start fresh with the “New conversation” button to send a clean context.</li>
-          </ul>
+        <section class="card">
+          <h2>How this works</h2>
+          <p>
+            The chatbot compares your question with keywords in its knowledge base. When it finds a match, it shares a
+            pre-written answer. Suggestions update dynamically to help you continue the conversation.
+          </p>
         </section>
       </aside>
     </main>
@@ -95,7 +53,7 @@
         <div class="avatar" aria-hidden="true"></div>
         <div class="bubble">
           <span class="sender"></span>
-          <div class="text" aria-live="polite"></div>
+          <p class="text"></p>
           <time class="timestamp" datetime=""></time>
         </div>
       </article>
