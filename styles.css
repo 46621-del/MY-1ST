@@ -2,9 +2,11 @@
   --page-bg: #f3f4f6;
   --surface: #ffffff;
   --surface-alt: #f9fafb;
+  --surface-strong: #eef1f6;
   --border: #d6d9df;
   --primary: #1f6feb;
   --primary-soft: rgba(31, 111, 235, 0.12);
+  --accent: #f97316;
   --text: #1f2933;
   --muted: #4f5b6c;
   --code: #0f172a;
@@ -22,6 +24,18 @@ body {
   color: var(--text);
   background: linear-gradient(145deg, #eef2f8, #ffffff);
   min-height: 100vh;
+}
+
+button,
+input,
+select,
+textarea {
+  font: inherit;
+  color: inherit;
+}
+
+button {
+  cursor: pointer;
 }
 
 .app-header {
@@ -53,7 +67,7 @@ body {
   margin: 0 auto;
   padding: 1.5rem clamp(1.5rem, 3vw, 3rem) 3rem;
   display: grid;
-  grid-template-columns: minmax(0, 2fr) minmax(240px, 1fr);
+  grid-template-columns: minmax(0, 2fr) minmax(280px, 1fr);
   gap: clamp(1.5rem, 3vw, 2.5rem);
 }
 
@@ -62,14 +76,42 @@ body {
   border-radius: 20px;
   box-shadow: var(--shadow);
   padding: clamp(1.25rem, 2.5vw, 1.75rem);
-  display: flex;
-  flex-direction: column;
-  gap: 1.25rem;
+  display: grid;
+  grid-template-rows: auto minmax(0, 1fr) auto auto;
+  gap: 1.1rem;
   border: 1px solid rgba(15, 23, 42, 0.04);
 }
 
+.chat-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.chat-header h2 {
+  margin: 0;
+  font-size: 1.2rem;
+}
+
+.secondary-button {
+  background: var(--surface-alt);
+  border: 1px solid rgba(15, 23, 42, 0.12);
+  border-radius: 10px;
+  padding: 0.45rem 0.9rem;
+  font-weight: 600;
+  color: var(--muted);
+  transition: transform 0.15s ease, box-shadow 0.15s ease, color 0.15s ease;
+}
+
+.secondary-button:hover,
+.secondary-button:focus {
+  color: var(--primary);
+  transform: translateY(-1px);
+  box-shadow: 0 10px 16px rgba(31, 111, 235, 0.2);
+}
+
 .conversation {
-  flex: 1;
   overflow-y: auto;
   display: flex;
   flex-direction: column;
@@ -121,6 +163,40 @@ body {
   border-color: rgba(249, 115, 22, 0.35);
 }
 
+.message--pending .bubble {
+  opacity: 0.7;
+  position: relative;
+}
+
+.message--pending .bubble::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: linear-gradient(120deg, transparent 0%, rgba(31, 111, 235, 0.08) 30%, transparent 60%);
+  animation: shimmer 1.2s infinite;
+  pointer-events: none;
+}
+
+.message--error .bubble {
+  background: #fef2f2;
+  border-color: rgba(239, 68, 68, 0.6);
+  color: #b91c1c;
+}
+
+.message--error .sender {
+  color: #b91c1c;
+}
+
+@keyframes shimmer {
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(100%);
+  }
+}
+
 .sender {
   display: block;
   font-weight: 600;
@@ -132,13 +208,62 @@ body {
 }
 
 .message--user .sender {
-  color: #f97316;
+  color: var(--accent);
 }
 
 .text {
   margin: 0;
   line-height: 1.6;
   font-size: 1rem;
+  white-space: pre-wrap;
+}
+
+.text p {
+  margin: 0 0 0.75rem;
+}
+
+.text h2,
+.text h3,
+.text h4,
+.text h5,
+.text h6 {
+  margin: 0 0 0.6rem;
+  font-size: 1.05rem;
+  color: var(--text);
+}
+
+.text ul,
+.text ol {
+  margin: 0 0 0.75rem 1.25rem;
+  padding: 0;
+}
+
+.text code {
+  background: rgba(15, 23, 42, 0.08);
+  border-radius: 6px;
+  padding: 0.1rem 0.35rem;
+  font-family: "Fira Code", "Source Code Pro", monospace;
+}
+
+.code-block {
+  background: var(--surface-strong);
+  border-radius: 12px;
+  border: 1px solid rgba(15, 23, 42, 0.1);
+  padding: 0.75rem 0.9rem;
+  margin: 0 0 0.9rem;
+  overflow-x: auto;
+  font-family: "Fira Code", "Source Code Pro", monospace;
+  font-size: 0.9rem;
+  color: var(--code);
+}
+
+.code-block__lang {
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: rgba(15, 23, 42, 0.55);
+  margin-bottom: 0.5rem;
 }
 
 .timestamp {
@@ -146,6 +271,16 @@ body {
   display: block;
   font-size: 0.78rem;
   color: rgba(79, 91, 108, 0.65);
+}
+
+.status {
+  min-height: 1.25rem;
+  font-size: 0.9rem;
+  color: var(--muted);
+  background: var(--surface-alt);
+  border-radius: 10px;
+  padding: 0.6rem 0.8rem;
+  border: 1px solid rgba(15, 23, 42, 0.05);
 }
 
 .chat-form {
@@ -164,8 +299,6 @@ body {
   border-radius: 12px;
   padding: 0.9rem 1rem;
   font-size: 1rem;
-  font-family: inherit;
-  color: var(--text);
   background: #ffffff;
 }
 
@@ -181,7 +314,6 @@ body {
   border-radius: 12px;
   padding: 0 1.6rem;
   font-weight: 600;
-  cursor: pointer;
   transition: transform 0.15s ease, box-shadow 0.15s ease;
 }
 
@@ -217,6 +349,66 @@ body {
   line-height: 1.6;
 }
 
+.card-intro {
+  margin-bottom: 1rem;
+}
+
+.field-group {
+  display: grid;
+  gap: 0.5rem;
+  margin-bottom: 1.1rem;
+}
+
+.password-field {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 0.5rem;
+}
+
+.password-field input {
+  padding-right: 0.5rem;
+}
+
+.checkbox {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.95rem;
+  color: var(--muted);
+}
+
+.checkbox input {
+  width: 1rem;
+  height: 1rem;
+}
+
+select,
+textarea,
+.password-field input {
+  border: 1px solid rgba(15, 23, 42, 0.12);
+  border-radius: 12px;
+  padding: 0.8rem 1rem;
+  background: #ffffff;
+}
+
+select:focus,
+textarea:focus,
+.password-field input:focus {
+  outline: 2px solid var(--primary);
+  outline-offset: 2px;
+}
+
+textarea {
+  resize: vertical;
+  min-height: 120px;
+}
+
+.helper-text {
+  margin: 0;
+  font-size: 0.9rem;
+  color: var(--muted);
+}
+
 .suggestions {
   list-style: none;
   padding: 0;
@@ -233,13 +425,27 @@ body {
   font-size: 0.95rem;
   color: var(--code);
   cursor: pointer;
-  transition: background 0.2s ease, transform 0.2s ease;
+  transition: background 0.2s ease, transform 0.2s ease, color 0.2s ease;
 }
 
 .suggestion:hover,
 .suggestion:focus {
   background: rgba(31, 111, 235, 0.1);
+  color: var(--primary);
   transform: translateY(-1px);
+}
+
+.tips {
+  margin: 0;
+  padding-left: 1.25rem;
+  color: var(--muted);
+  display: grid;
+  gap: 0.65rem;
+  font-size: 0.95rem;
+}
+
+.tips li {
+  line-height: 1.5;
 }
 
 .sr-only {
@@ -270,6 +476,7 @@ body {
 
   .chat {
     padding: 1rem;
+    grid-template-rows: auto minmax(0, 1fr) auto auto;
   }
 
   .chat-form {
@@ -279,5 +486,9 @@ body {
   .send-button {
     width: 100%;
     padding-block: 0.9rem;
+  }
+
+  .password-field {
+    grid-template-columns: 1fr;
   }
 }
